@@ -1,0 +1,14 @@
+{
+  "name": "shutdown",
+  "version": "1.0.0",
+  "description": "Application for shuting down the PC",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "Guillermo Merino",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shutdown PC</title>
+
+  <style>
+    * { box-sizing: border-box }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    button, input {
+      width: 150px;
+      height: 50px;
+      padding: 10px 20px;
+      font-size: 20px;
+    }
+    
+    button {
+      cursor: pointer;
+      background-color: rgb(233, 126, 126);
+      transition: all .3s ease;
+    }
+    button:active {
+      transform: translateY(20px);
+    }
+  </style>
+</head>
+<body>
+
+  <input type="time">
+  <button>Shutdown</button>
+  
+  <script type="module">
+    const $time = document.querySelector('input[type="time"]')
+    
+    document
+      .querySelector('button')
+      .addEventListener('click', () => {
+        const time = $time.value
+        const [hours, minutes] = time.split(':')
+        let seconds = Number(hours) * 3600 + Number(minutes) * 60
+        if (isNaN(seconds)) seconds = 0
+
+        fetch(`/shutdown?time=${seconds}`)
+          .then(response => response.json())
+          .then(data => alert('Ok'))
+          .catch(error => alert('Error: ' + error.message))
+      })
+  </script>
+</body>
+</html>
