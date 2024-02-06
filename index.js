@@ -32,7 +32,7 @@ app.get('/shutdown', async (req, res) => {
     : platforms.default
 
   try {
-    await execPromise(command)
+    execPromise(command)
     res.send({ message: 'Shutting down' })
   } catch (error) {
     res.status(500).send({ message: 'Error shutting down' })
