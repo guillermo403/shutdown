@@ -3,7 +3,8 @@ const ONE_MINUTE = 60 * ONE_SECOND
 const ONE_HOUR = 60 * ONE_MINUTE
 
 export default (config) => {
-  setInterval(() => executeLoop(config), 10 * ONE_SECOND)
+  console.log('Starting loop')
+  setInterval(() => executeLoop(config), 30 * ONE_SECOND)
 }
 
 function executeLoop (config) {

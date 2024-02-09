@@ -14,5 +14,4 @@ try {
 }
 
 api()
-
-if (config.automatic) loop(config)
+config.automatic && loop(config)

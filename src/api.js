@@ -9,7 +9,7 @@ export default () => {
 
   app.get('/', sf)
   app.get('/shutdown', sc)
-  app.listen(port, () => console.log('Server running on port ' + port))
+  app.listen(port, () => console.log(`http://localhost:${port}`))
 }
 
 function sf (_, res) {
