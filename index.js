@@ -1,45 +1,18 @@
-import express from 'express'
-import os from 'node:os'
-import { exec } from 'node:child_process'
-import { promisify } from 'node:util'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
+import api from './src/api.js'
+import loop from './src/loop.js'
+const CONFIG_PATH = join(dirname(fileURLToPath(import.meta.url)), 'settings.json')
 
-const execPromise = promisify(exec)
-const app = express()
-const port = 9876
-
-const platforms = {
-  win32: 'shutdown /s /t #TIME#',
-  linux: 'sleep #TIME#; shutdown now',
-  darwin: 'sleep #TIME#; shutdown now',
-  default: 'NOT FOUND COMMAND'
+let config = {}
+try {
+  config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'))
+} catch (error) {
+  console.error('Error reading config file', error.message ?? '')
+  process.exit(1)
 }
 
-app.get('/', (_, res) => {
-  const p = join(
-    dirname(fileURLToPath(import.meta.url)),
-    'index.html'
-  )
-  res.sendFile(p)
-})
+api()
 
-app.get('/shutdown', async (req, res) => {
-  const { time } = req.query
-  const platform = os.platform()
-  const command = platform in platforms
-    ? platforms[platform].replace('#TIME#', time)
-    : platforms.default
-
-  try {
-    execPromise(command)
-    res.send({ message: 'Shutting down' })
-  } catch (error) {
-    res.status(500).send({ message: 'Error shutting down' })
-    console.error(err) 
-  }
-})
-
-app.listen(port, () => {
-  console.log('Server running on port ' + port)
-})
+if (config.automatic) loop(config)

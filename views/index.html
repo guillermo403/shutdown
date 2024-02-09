@@ -41,10 +41,10 @@
   <button>Shutdown</button>
   
   <script type="module">
+    const $button = document.querySelector('button')
     const $time = document.querySelector('input[type="time"]')
     
-    document
-      .querySelector('button')
+    $button
       .addEventListener('click', () => {
         const time = $time.value
         const [hours, minutes] = time.split(':')
