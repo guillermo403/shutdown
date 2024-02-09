@@ -9,8 +9,7 @@ let config = {}
 try {
   config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'))
 } catch (error) {
-  console.error('Error reading config file', error.message ?? '')
-  process.exit(1)
+  console.log('No settings file found or invalid JSON. Using default settings.')
 }
 
 api()
